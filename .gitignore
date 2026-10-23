@@ -1,0 +1,29 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# data (manuals, photos, models are large and may be personal)
+data/**
+!data/**/
+!data/**/.gitkeep
+models/
+*.gguf
+*.safetensors
+adapter/
+merged_model/
+
+# local services
+.temporal.db*
+*.log
+
+# keep results (they are the evidence), but not raw caches
+results/cache/

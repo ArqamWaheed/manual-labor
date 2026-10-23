@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Request (mock)</title>
+<style>body{font:16px system-ui;margin:0;padding:16px;background:#fff;color:#111}form{max-width:480px;margin:auto}
+label{display:block;margin-top:12px}input,select,textarea{width:100%;padding:8px;box-sizing:border-box}
+.banner{background:#ffe9d6;padding:8px;font-size:14px}</style></head>
+<body>
+<p class="banner">MOCK brand service form for testing Manual Labor + Auth0 approval. Nothing is sent anywhere.</p>
+<form id="f">
+  <h1>Book a technician</h1>
+  <label>Full name <input name="name" required></label>
+  <label>Mobile number <input name="phone" required></label>
+  <label>City <select name="city"><option>Islamabad</option><option>Rawalpindi</option><option>Lahore</option><option>Karachi</option></select></label>
+  <label>Product <select name="product"><option>Air Conditioner</option><option>Washing Machine</option><option>Refrigerator</option></select></label>
+  <label>Model number <input name="model" required></label>
+  <label>Problem / error code <textarea name="problem" rows="3"></textarea></label>
+  <button type="submit">Submit request</button>
+</form>
+<pre id="log"></pre>
+<script>
+document.getElementById('f').onsubmit = (e) => { e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  document.getElementById('log').textContent = 'SUBMITTED ' + new Date().toISOString() + '\n' + JSON.stringify(data, null, 2); };
+</script>
+</body></html>

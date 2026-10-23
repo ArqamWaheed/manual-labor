@@ -1,0 +1,6 @@
+# ollama create manual-labor-4b -f training/Modelfile
+FROM ../models/manual-labor-4b-Q4_K_M.gguf
+PARAMETER temperature 0
+PARAMETER num_ctx 8192
+# TODO: copy the TEMPLATE from `ollama show qwen3.5:4b --modelfile` so the chat format matches training
+#       (thinking off). A mismatched template silently ruins a fine-tune.

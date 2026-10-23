@@ -1,0 +1,1 @@
+{"train": ["brand-modelA", "brand-modelB"], "heldout": ["otherbrand-modelC"], "note": "hold out >= 3 brands; decide before generating any training data"}

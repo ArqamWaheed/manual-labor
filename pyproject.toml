@@ -1,0 +1,40 @@
+[project]
+name = "manual-labor"
+version = "0.1.0"
+description = "Nobody reads the appliance manual. A local 4B model does, and cites the page."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Arqam Waheed" }]
+# Core runtime. The CLI's --help needs none of these (imports are lazy).
+dependencies = [
+  "openai>=1.40",            # Ultramarine + Ollama + Tinker OpenAI-compatible endpoints
+  "psycopg[binary]>=3.2",    # Tiger Data
+  "pymupdf>=1.24",           # PDF -> page text
+  "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+web = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9"]
+browser = ["stagehand"]                       # Stagehand Python SDK (v4 docs)
+temporal = ["temporalio>=1.7"]
+train = ["tinker", "tinker-cookbook"]         # needs Python 3.11+
+dev = ["pytest>=8"]
+all = ["manual-labor[web,browser,temporal,dev]"]
+
+[project.scripts]
+manual-labor = "manual_labor.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["manual_labor*"]
+
+[tool.setuptools.package-data]
+manual_labor = ["sql/*.sql", "static/*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,3 @@
+{"id": "ex-01", "appliance_id": "brand-model", "q": "What does E4 mean?", "gold_pages": [21], "type": "code", "answerable": true}
+{"id": "ex-02", "appliance_id": "brand-model", "q": "pani front se kyun tapak raha hai", "gold_pages": [18, 19], "type": "plain", "answerable": true}
+{"id": "ex-03", "appliance_id": "brand-model", "q": "Can I connect this AC to solar panels directly?", "gold_pages": [], "type": "plain", "answerable": false}

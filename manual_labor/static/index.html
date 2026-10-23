@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual Labor</title>
+<!-- Placeholder UI. Rebuild with the frontend-design skill (palette in AGENTS.md). -->
+<style>
+  :root { --paper:#F4F1EA; --ink:#1E2A38; --accent:#F26B1D; --rule:#9AA5B1; }
+  body { background:var(--paper); color:var(--ink); font:16px/1.5 Georgia, serif; margin:0; padding:16px; }
+  main { max-width:560px; margin:0 auto; }
+  select, input, button { font:inherit; width:100%; padding:12px; margin:6px 0; box-sizing:border-box; }
+  button { background:var(--ink); color:var(--paper); border:0; }
+  .page { color:var(--accent); font-family:"IBM Plex Mono", monospace; }
+  #out { border-top:1px solid var(--rule); margin-top:12px; padding-top:12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Manual Labor</h1>
+  <select id="appliance"></select>
+  <input id="q" placeholder="E4 on the AC / kapre ki machine se pani kyun aa raha hai">
+  <button id="ask">Ask the manual</button>
+  <div id="out"></div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+fetch('/api/appliances').then(r => r.json()).then(list => {
+  $('appliance').innerHTML = list.map(a => `<option value="${esc(a.id)}">${esc(a.kind ?? '')} · ${esc(a.brand)} ${esc(a.model)}</option>`).join('');
+}).catch(() => { $('out').textContent = 'No appliances yet. Run: python -m manual_labor add'; });
+$('ask').onclick = async () => {
+  $('out').textContent = 'Reading your manual…';
+  const r = await fetch('/api/ask', { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ appliance_id: $('appliance').value, question: $('q').value }) });
+  const a = await r.json();
+  if (a.not_in_manual) { $('out').innerHTML = '<p>That isn’t in your manual.</p>'; return; }
+  $('out').innerHTML = '<ol>' + a.steps.map(s => `<li>${esc(s)}</li>`).join('') + '</ol>' +
+    `<p class="page">p. ${a.pages.join(', ')}</p>` + (a.call_service ? '<p>The manual says to call service.</p>' : '');
+};
+</script>
+</body>
+</html>
